@@ -11,12 +11,21 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-import { contactsApi } from './contactsSlice';
+// import { contactsApi } from './contacts/slice';
 import storage from 'redux-persist/lib/storage';
+import { contactsReducer } from './contacts/slice';
+import { authReducer } from './auth/slice';
 
 const persistConfig = {
   key: 'root',
   storage,
+  // whitelist: ['token'],
+};
+
+const authPersistConfig = {
+  key: 'auth',
+  storage,
+  whitelist: ['token'],
 };
 
 const persistedFilterReducer = persistReducer(persistConfig, filterReducer);
@@ -25,15 +34,17 @@ const persistedFilterReducer = persistReducer(persistConfig, filterReducer);
 export const store = configureStore({
   reducer: {
     filter: persistedFilterReducer,
+    auth: persistReducer(authPersistConfig, authReducer),
     // contacts: persistedContactsReducer,
-    [contactsApi.reducerPath]: contactsApi.reducer,
+    // [contactsApi.reducerPath]: contactsApi.reducer,
+    contacts: contactsReducer,
   },
   middleware(getDefaultMiddleware) {
     return getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(contactsApi.middleware);
+    });
     // return getDefaultMiddleware().concat(contactsApi.middleware);
   },
 });

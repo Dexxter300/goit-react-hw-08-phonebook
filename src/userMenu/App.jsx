@@ -2,15 +2,26 @@
 // import { nanoid } from 'nanoid';
 
 // import { addContacts, deleteContacs } from 'redux/contactsSlice';
-import { setFilter } from 'redux/filterSlice';
+// import { setFilter } from 'redux/filterSlice';
 // import { getFilter, getContacts } from 'redux/selectors';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 // import { useGetContactsQuery } from 'redux/contactsSlice';
 
-import { Form } from './form/form';
-import { List } from './list/list';
-import { Filter } from './filter/filter';
-// import { useEffect } from 'react';
+// import { Form } from './form/form';
+// import { List } from './list/list';
+// import { Filter } from './filter/filter';
+import { Nav } from '../components/nav/nav';
+import { ContactsPage } from '../components/contactsPage/contactsPage';
+import { Route, Routes } from 'react-router-dom';
+import { Home } from '../components/home/home';
+import { RegisterForm } from '../components/registerForm/registerForm';
+import { LoginForm } from '../components/loginForm/loginForm';
+import { RestrictedRoute } from './restrictedRoute';
+import { PrivateRoute } from './privateRoute';
+import { refreshUser } from 'redux/auth/operations';
+import { useAuth } from 'hooks';
+import { useEffect, lazy } from 'react';
+import { useDispatch } from 'react-redux';
 
 export const App = () => {
   // const [contacts, setContacts] = useState([
@@ -22,7 +33,6 @@ export const App = () => {
   // const [filter, setFilter] = useState('');
   // const [filteredList, setFilteredList] = useState([]);
 
-  const dispatch = useDispatch();
   // const filter = useSelector(state => state.filter.filter);
   // const contacts = useSelector(state => state.contacts.contacts);
   // const { contacts, error, isLoading } = useGetContactsQuery();
@@ -59,17 +69,17 @@ export const App = () => {
   // e.target.reset();
   // };
 
-  const handleFilter = e => {
-    const correctFilter = e.target.value.toLowerCase();
-    // console.log(correctFilter);
-    dispatch(setFilter(correctFilter));
-    // console.log(filter);
-    if (correctFilter === '') {
-      // setFilteredList([]);
-      return;
-    }
-    // renderFilter();
-  };
+  // const handleFilter = e => {
+  //   const correctFilter = e.target.value.toLowerCase();
+  //   // console.log(correctFilter);
+  //   dispatch(setFilter(correctFilter));
+  //   // console.log(filter);
+  //   if (correctFilter === '') {
+  //     // setFilteredList([]);
+  //     return;
+  //   }
+  //   // renderFilter();
+  // };
 
   // const renderFilter = () => {
   //   // console.log(filter);
@@ -88,21 +98,51 @@ export const App = () => {
   //   dispatch(deleteContacs(contactId));
   // };
 
+  const dispatch = useDispatch();
+  const { isRefreshing } = useAuth();
+
+  useEffect(() => {
+    dispatch(refreshUser());
+  }, [dispatch]);
+
   return (
-    <div
-      style={{
-        paddingLeft: '20px',
-      }}
-    >
-      <h1>Phonebook</h1>
-      <Form></Form>
-      <h2>Contacts</h2>
-      <Filter handleFilter={handleFilter}></Filter>
-      {/* {console.log(filteredList)} */}
-      <List
-      // contacts={filteredList?.length === 0 ? contacts : filteredList}
-      // deleteContact={deleteContact}
-      ></List>
-    </div>
+    // <div
+    //   style={{
+    //     paddingLeft: '20px',
+    //   }}
+    // >
+    //   <h1>Phonebook</h1>
+    //   <Form></Form>
+    //   <h2>Contacts</h2>
+    //   <Filter handleFilter={handleFilter}></Filter>
+    //   <List
+    //   ></List>
+    // </div>
+    <Routes>
+      <Route path="/" element={<Nav />}>
+        <Route index element={<Home />} />
+        <Route
+          path="contacts"
+          element={
+            <PrivateRoute redirectTo="/login" component={<ContactsPage />} />
+          }
+        />
+        <Route
+          path="register"
+          element={
+            <RestrictedRoute
+              redirectTo="/contacts"
+              component={<RegisterForm />}
+            />
+          }
+        />
+        <Route
+          path="login"
+          element={
+            <RestrictedRoute redirectTo="/contacts" component={<LoginForm />} />
+          }
+        />
+      </Route>
+    </Routes>
   );
 };

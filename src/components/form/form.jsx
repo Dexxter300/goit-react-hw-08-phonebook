@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import React from 'react';
 import css from './form.module.css';
-import {
-  useAddContactMutation,
-  useGetContactsQuery,
-} from 'redux/contactsSlice';
+// import {
+//   useAddContactMutation,
+//   useGetContactsQuery,
+// } from 'redux/contacts/slice';
+import { addContact } from 'redux/contacts/operations';
 import { nanoid } from 'nanoid';
 import { setFilter } from 'redux/filterSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAllContacts } from 'redux/contacts/selectors';
 
 export const Form = () => {
   const [name, setName] = useState('');
@@ -19,8 +21,9 @@ export const Form = () => {
   //   number: '',
   // };
 
-  const [addContact] = useAddContactMutation();
-  const { data: contacts } = useGetContactsQuery();
+  // const [addContact] = useAddContactMutation();
+  // const { data: contacts } = useGetContactsQuery();
+  const contacts = useSelector(selectAllContacts);
 
   let addContactCheck = null;
 
@@ -29,7 +32,8 @@ export const Form = () => {
       e.preventDefault();
       const contactChecker = normilizeContact(e, name, number);
       if (addContactCheck) {
-        await addContact(contactChecker);
+        console.log(contactChecker);
+        await dispatch(addContact(contactChecker));
       }
       dispatch(setFilter(''));
       e.target.reset();
@@ -49,7 +53,7 @@ export const Form = () => {
       return;
     }
     addContactCheck = true;
-    const newContact = { name: name, number: number, id: nanoid() };
+    const newContact = { name: name, number: number };
     return newContact;
   };
 

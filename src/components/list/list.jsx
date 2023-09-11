@@ -3,20 +3,26 @@ import {
   useGetContactsQuery,
   useDeleteContactMutation,
   // useGetContactsByNameQuery,
-} from '../../redux/contactsSlice';
+} from '../../redux/contacts/slice';
 import { ListItem } from 'components/listItem/listItem';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import React, { useState } from 'react';
+import { selectAllContacts, selectLoading } from 'redux/contacts/selectors';
+import { deleteContact } from 'redux/contacts/operations';
+import { useDispatch } from 'react-redux';
 
 export const List = () => {
   // console.log(contacts);
   const filter = useSelector(state => state.filter.filter);
-  const { data: contacts, isLoading } = useGetContactsQuery();
-  const [deleteContact] = useDeleteContactMutation();
+  const dispatch = useDispatch();
+  // const { data: contacts, isLoading } = useGetContactsQuery();
+  // const [deleteContact] = useDeleteContactMutation();
   const [filteredList, setFilteredList] = useState([]);
   // const { data: filteredContacts, isLoading: isLoadingForName } =
   // useGetContactsByNameQuery(filter);
+  const isLoading = useSelector(selectLoading);
+  const contacts = useSelector(selectAllContacts);
 
   useEffect(() => {
     if (!isLoading) {
@@ -30,7 +36,7 @@ export const List = () => {
 
   const handleDelete = async id => {
     try {
-      await deleteContact(id);
+      await dispatch(deleteContact(id));
     } catch (error) {
       console.log(error);
     }
