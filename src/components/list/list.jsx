@@ -1,9 +1,4 @@
 import css from './list.module.css';
-import {
-  useGetContactsQuery,
-  useDeleteContactMutation,
-  // useGetContactsByNameQuery,
-} from '../../redux/contacts/slice';
 import { ListItem } from 'components/listItem/listItem';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
