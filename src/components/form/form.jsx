@@ -6,7 +6,7 @@ import css from './form.module.css';
 //   useGetContactsQuery,
 // } from 'redux/contacts/slice';
 import { addContact } from 'redux/contacts/operations';
-import { nanoid } from 'nanoid';
+// import { nanoid } from 'nanoid';
 import { setFilter } from 'redux/filterSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAllContacts } from 'redux/contacts/selectors';

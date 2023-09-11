@@ -19,8 +19,8 @@ import { LoginForm } from '../components/loginForm/loginForm';
 import { RestrictedRoute } from './restrictedRoute';
 import { PrivateRoute } from './privateRoute';
 import { refreshUser } from 'redux/auth/operations';
-import { useAuth } from 'hooks';
-import { useEffect, lazy } from 'react';
+// import { useAuth } from 'hooks';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 export const App = () => {
@@ -99,7 +99,7 @@ export const App = () => {
   // };
 
   const dispatch = useDispatch();
-  const { isRefreshing } = useAuth();
+  // const { isRefreshing } = useAuth();
 
   useEffect(() => {
     dispatch(refreshUser());
