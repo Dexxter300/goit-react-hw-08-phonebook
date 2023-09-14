@@ -1,7 +1,26 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { toast } from 'react-hot-toast';
 
 axios.defaults.baseURL = 'https://connections-api.herokuapp.com/';
+
+const notify = text =>
+  toast.error(text, {
+    style: {
+      // border: '1px solid #713200',
+      // padding: '16px',
+      color: '#aeaeb4',
+      backgroundColor: '#222222',
+    },
+    position: 'top-right',
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: 'dark',
+  });
 
 const setAuthHeader = token => {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -20,6 +39,7 @@ export const register = createAsyncThunk(
       setAuthHeader(res.data.token);
       return res.data;
     } catch (error) {
+      notify('ops, something went wrong');
       return thunkAPI.rejectWithValue(error.message);
     }
   }
@@ -35,10 +55,11 @@ export const logIn = createAsyncThunk(
     try {
       const res = await axios.post('/users/login', credentials);
       // After successful login, add the token to the HTTP header
-      console.log(res.data.token);
+      // console.log(res.data.token);
       setAuthHeader(res.data.token);
       return res.data;
     } catch (error) {
+      notify('Invalid password or login');
       return thunkAPI.rejectWithValue(error.message);
     }
   }

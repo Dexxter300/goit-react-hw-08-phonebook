@@ -10,24 +10,44 @@
 }
 .listItem {
   display: flex;
+  width: 300px;
   justify-content: space-between;
-  padding: 10px 20px 10px 5px;
+  padding: 10px 20px 10px 10px;
   border-radius: 10px;
-  background-color: rgb(191, 195, 199);
+  background-color: #222222;
   margin-bottom: 20px;
+  /* animation: animateX50 100ms 1 1000ms; */
 }
 .contactText {
+  color: #aeaeb4;
   font-weight: 600;
 }
 .itemBtn {
   height: 25px;
   width: 50px;
-  color: white;
-  background-color: black;
+  color: black;
+  background-color: #00995e;
   border-radius: 5px;
   border: 0px;
-  transition: background 2000ms cubic-bezier(0.075, 0.82, 0.165, 1);
+  transition: background 2000ms cubic-bezier(0.075, 0.82, 0.165, 1),
+    color 200ms linear;
 }
 .itemBtn:hover {
-  background: rgb(63, 24, 210);
+  color: white;
+  /* background-color: rgb(63, 24, 210); */
+  background-color: #4ce5b1;
 }
+
+/* @keyframes animateX50 {
+  0% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(50px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+} */

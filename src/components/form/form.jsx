@@ -32,7 +32,7 @@ export const Form = () => {
       e.preventDefault();
       const contactChecker = normilizeContact(e, name, number);
       if (addContactCheck) {
-        console.log(contactChecker);
+        // console.log(contactChecker);
         await dispatch(addContact(contactChecker));
       }
       dispatch(setFilter(''));
@@ -67,9 +67,13 @@ export const Form = () => {
 
   return (
     <>
-      <form className={css.form} onSubmit={e => handleSubmit(e, name, number)}>
+      <form
+        className={css.form}
+        onSubmit={e => handleSubmit(e, name, number)}
+        autoComplete="off"
+      >
         <label className={css.formLabel}>
-          Name
+          <span className={css.inputTitle}>Name</span>
           <input
             className={css.formInput}
             type="text"
@@ -81,7 +85,7 @@ export const Form = () => {
           />
         </label>
         <label className={css.formLabel}>
-          Phone number
+          <span className={css.inputTitle}>Phone number</span>
           <input
             className={css.formInput}
             type="tel"

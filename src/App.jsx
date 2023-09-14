@@ -10,18 +10,19 @@
 // import { Form } from './form/form';
 // import { List } from './list/list';
 // import { Filter } from './filter/filter';
-import { Nav } from '../components/nav/nav';
-import { ContactsPage } from '../components/contactsPage/contactsPage';
+// import { Nav } from '../components/nav/nav';
+// import { ContactsPage } from '../pages/contactsPage';
 import { Route, Routes } from 'react-router-dom';
-import { Home } from '../components/home/home';
-import { RegisterForm } from '../components/registerForm/registerForm';
-import { LoginForm } from '../components/loginForm/loginForm';
+// import { Home } from '../pages/home';
+// import { RegisterForm } from '../pages/registerForm';
+// import { LoginForm } from '../pages/loginForm';
 import { RestrictedRoute } from './restrictedRoute';
 import { PrivateRoute } from './privateRoute';
 import { refreshUser } from 'redux/auth/operations';
-// import { useAuth } from 'hooks';
-import { useEffect } from 'react';
+import { useAuth } from 'hooks';
+import { lazy, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { Layout } from './Layout';
 
 export const App = () => {
   // const [contacts, setContacts] = useState([
@@ -98,14 +99,21 @@ export const App = () => {
   //   dispatch(deleteContacs(contactId));
   // };
 
+  const Home = lazy(() => import('./pages/home'));
+  const ContactsPage = lazy(() => import('./pages/contactsPage'));
+  const RegisterForm = lazy(() => import('./pages/registerForm'));
+  const LoginForm = lazy(() => import('./pages/loginForm'));
+
   const dispatch = useDispatch();
-  // const { isRefreshing } = useAuth();
+  const { isRefreshing } = useAuth();
 
   useEffect(() => {
     dispatch(refreshUser());
   }, [dispatch]);
 
-  return (
+  return isRefreshing ? (
+    <b>Refreshing user...</b>
+  ) : (
     // <div
     //   style={{
     //     paddingLeft: '20px',
@@ -119,7 +127,7 @@ export const App = () => {
     //   ></List>
     // </div>
     <Routes>
-      <Route path="/" element={<Nav />}>
+      <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route
           path="contacts"
@@ -130,17 +138,12 @@ export const App = () => {
         <Route
           path="register"
           element={
-            <RestrictedRoute
-              redirectTo="/contacts"
-              component={<RegisterForm />}
-            />
+            <RestrictedRoute redirectTo="/" component={<RegisterForm />} />
           }
         />
         <Route
           path="login"
-          element={
-            <RestrictedRoute redirectTo="/contacts" component={<LoginForm />} />
-          }
+          element={<RestrictedRoute redirectTo="/" component={<LoginForm />} />}
         />
       </Route>
     </Routes>

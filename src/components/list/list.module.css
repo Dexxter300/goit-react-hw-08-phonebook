@@ -1,19 +1,22 @@
 .list {
   list-style: none;
   border-radius: 10px;
-  background-color: rgb(107, 106, 105);
-  width: 300px;
+  /* background-color: rgba(0, 30, 139, 0.993); */
+  width: 400px;
+  /* height: 100%; */
   padding-top: 20px;
   padding-bottom: 20px;
   padding-left: 10px;
   padding-right: 10px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 .listItem {
   display: flex;
   justify-content: space-between;
   padding: 10px 20px 10px 5px;
   border-radius: 10px;
-  background-color: rgb(191, 195, 199);
+  background-color: rgba(0, 25, 114, 0.733);
   margin-bottom: 20px;
 }
 .contactText {

@@ -27,6 +27,7 @@ export const List = () => {
         );
       });
     }
+    // dispatch(fetchContacts);
   }, [filter, contacts, isLoading]);
 
   const handleDelete = async id => {
