@@ -112,7 +112,17 @@ export const App = () => {
   }, [dispatch]);
 
   return isRefreshing ? (
-    <b>Refreshing user...</b>
+    <p
+      style={{
+        backgroundColor: '#0e0e0e',
+        height: '100vh',
+        backgroundSize: 'cover',
+        margin: 0,
+        // color: '#aeaeb4',
+      }}
+    >
+      Refreshing user...
+    </p>
   ) : (
     // <div
     //   style={{
