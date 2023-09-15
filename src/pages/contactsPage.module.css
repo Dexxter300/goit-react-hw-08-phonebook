@@ -23,8 +23,13 @@
   background-color: #161616;
   box-shadow: -1px 0px 48px -5px rgba(0, 255, 102, 0.54);
   /* box-shadow: -1px 0px 79px 12px rgba(0, 255, 102, 0.54); */
+  transition: box-shadow 200ms linear;
 
   /* border: 1px solid gray; */
+}
+.parts:hover {
+  /* box-shadow: -1px 0px 48px -5px rgba(0, 255, 102, 0.54); */
+  box-shadow: -1px 0px 71px 10px rgba(0, 255, 102, 0.54);
 }
 /* .form {
   height: 300px;
